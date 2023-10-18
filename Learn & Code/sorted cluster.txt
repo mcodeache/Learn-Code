@@ -1,0 +1,25 @@
+import pandas as pd
+
+filename = "C:\\Users\\aryan.mittal\\Downloads\\Book1.xlsx"
+data = pd.read_excel(filename)
+
+clusters = {}
+
+def convert_latitude(lat_str):
+    parts = lat_str.split('°')
+    degrees = float(parts[0])
+    return degrees
+
+def add_to_cluster(location):
+    for lat_degree in clusters:
+        if abs(location['Latitude'] - lat_degree) <= 10:
+            clusters[lat_degree].append(location)
+            return
+    clusters[location['Latitude']] = [location]
+
+for i, location in data.iterrows():
+    location['Latitude'] = convert_latitude(location['Latitude'])
+    add_to_cluster(location)
+
+for lat_degree, cluster in clusters.items():
+    print(f"Latitude Degree {lat_degree}: {[location['Location'] for location in cluster]}")

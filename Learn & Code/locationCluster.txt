@@ -1,0 +1,54 @@
+import pandas as pd
+import math
+
+
+filename = "C:\\Users\\aryan.mittal\\Downloads\\Book1.xlsx"
+data = pd.read_excel(filename)
+
+def haversine(lat1, lon1, lat2, lon2):
+    earth_radius = 6371
+
+    lat1 = math.radians(lat1)
+    lon1 = math.radians(lon1)
+    lat2 = math.radians(lat2)
+    lon2 = math.radians(lon2)
+
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    distance = earth_radius * c
+
+    return distance
+
+
+clusters = []
+
+assigned_locations = set()
+
+for i, location1 in data.iterrows():
+    if i in assigned_locations:
+        continue
+
+    lat1_deg = float(location1['Latitude'].split('°')[0])
+    lon1_deg = float(location1['Longitude'].split('°')[0])
+
+    cluster = [location1]
+
+    for j, location2 in data.iterrows():
+        if i == j or j in assigned_locations:
+            continue
+
+        lat2_deg = float(location2['Latitude'].split('°')[0])
+        lon2_deg = float(location2['Longitude'].split('°')[0])
+
+        distance = haversine(lat1_deg, lon1_deg, lat2_deg, lon2_deg)
+
+        if distance < 10:
+            cluster.append(location2)
+            assigned_locations.add(j)
+
+    clusters.append(cluster)
+
+for i, cluster in enumerate(clusters):
+    print(f"Cluster {i + 1}: {[location['Location'] for location in cluster]}")
