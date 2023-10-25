@@ -80,8 +80,8 @@ class Child extends Human {
 
 public class HumanDemo {
     public static void main(String[] args) {
-        Human adult = new Adult("Pooja's chapri", 30);
-        Human child = new Child("Pooja", 8);
+        Human adult = new Adult("Raunak", 30);
+        Human child = new Child("Manishh", 8);
 
         adult.introduce();
         adult.moveHand();
