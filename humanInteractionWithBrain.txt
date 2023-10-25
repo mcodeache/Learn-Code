@@ -1,0 +1,94 @@
+class Brain {
+    private boolean moveHand;
+
+    public boolean shouldMoveHand() {
+        return moveHand;
+    }
+
+    public void setMoveHand(boolean moveHand) {
+        this.moveHand = moveHand;
+    }
+}
+
+abstract class Human {
+    private String name;
+    private int age;
+    private Brain brain;
+
+    public Human(String name, int age) {
+        this.name = name;
+        this.age = age;
+        this.brain = new Brain();
+    }
+
+    public void introduce() {
+        System.out.println("Hello, my name is " + name + " and I am " + age + " years old.");
+    }
+
+    public void moveHand() {
+        if (brain.shouldMoveHand()) {
+            System.out.println(name + " is moving their hand in coordination with the brain.");
+        } else {
+            System.out.println(name + " is not moving their hand.");
+        }
+    }
+
+    public Brain getBrain() {
+        return brain;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void work() {
+        // Default implementation for work (for children)
+        System.out.println(getName() + " is not working.");
+    }
+}
+
+class Adult extends Human {
+    public Adult(String name, int age) {
+        super(name, age);
+        getBrain().setMoveHand(true); // Set the brain's instruction to move the hand for adults
+    }
+
+    @Override
+    public void work() {
+        System.out.println(getName() + " is working as an adult.");
+    }
+}
+
+class Child extends Human {
+    public Child(String name, int age) {
+        super(name, age);
+        getBrain().setMoveHand(false); // Set the brain's instruction not to move the hand for children
+    }
+}
+
+public class HumanDemo {
+    public static void main(String[] args) {
+        Human adult = new Adult("Pooja's chapri", 30);
+        Human child = new Child("Pooja", 8);
+
+        adult.introduce();
+        adult.moveHand();
+        adult.work(); // Polymorphism allows calling the appropriate work method
+
+        child.introduce();
+        child.moveHand();
+        child.work(); // Polymorphism allows calling the appropriate work method
+    }
+}
