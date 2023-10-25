@@ -54,7 +54,6 @@ abstract class Human {
     }
 
     public void work() {
-        // Default implementation for work (for children)
         System.out.println(getName() + " is not working.");
     }
 }
@@ -62,7 +61,7 @@ abstract class Human {
 class Adult extends Human {
     public Adult(String name, int age) {
         super(name, age);
-        getBrain().setMoveHand(true); // Set the brain's instruction to move the hand for adults
+        getBrain().setMoveHand(true);
     }
 
     @Override
@@ -74,7 +73,7 @@ class Adult extends Human {
 class Child extends Human {
     public Child(String name, int age) {
         super(name, age);
-        getBrain().setMoveHand(false); // Set the brain's instruction not to move the hand for children
+        getBrain().setMoveHand(false);
     }
 }
 
@@ -85,10 +84,10 @@ public class HumanDemo {
 
         adult.introduce();
         adult.moveHand();
-        adult.work(); // Polymorphism allows calling the appropriate work method
+        adult.work();
 
         child.introduce();
         child.moveHand();
-        child.work(); // Polymorphism allows calling the appropriate work method
+        child.work();
     }
 }
