@@ -1,0 +1,55 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class KaprekarConstant {
+
+    public int changeOrder(String value) {
+        int iterations = 0;
+        int result = Integer.parseInt(value);
+
+        while (result != 6174) {
+            int[] arr = new int[4];
+            for (int i = 0; i < 4; i++) {
+                arr[i] = Character.getNumericValue(value.charAt(i));
+            }
+
+            Arrays.sort(arr);
+            int ascending = getNumber(arr);
+            int descending = getNumber(reverseArray(arr));
+
+            result = descending - ascending;
+            value = String.format("%04d", result); 
+
+            iterations++;
+        }
+
+        return iterations;
+    }
+
+    public static int getNumber(int[] digits) {
+        int number = 0;
+        for (int digit : digits) {
+            number = number * 10 + digit;
+        }
+        return number;
+    }
+
+    public static int[] reverseArray(int[] array) {
+        int[] reversedArray = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            reversedArray[i] = array[array.length - 1 - i];
+        }
+        return reversedArray;
+    }
+
+    public static void main(String[] args) {
+        Scanner inputObj = new Scanner(System.in);
+        System.out.println("Enter a four-digit number in format 1234: ");
+        String userInput = inputObj.nextLine();
+
+        KaprekarConstant kConstant = new KaprekarConstant();
+
+        int iterations = kConstant.changeOrder(userInput);
+        System.out.println("Number of iterations to reach 6174: " + iterations);
+    }
+}
